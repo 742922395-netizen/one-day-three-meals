@@ -2,476 +2,358 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#F8F3EC">
-
 <title>一日三餐</title>
 
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box}
 
 body{
- margin:0;
- background:#F8F3EC;
- color:#403B36;
- font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",
- "Helvetica Neue",Arial,sans-serif;
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:#f7f0e7;
+  color:#3d3936;
 }
 
-button,input,textarea,select{font-family:inherit}
-button{cursor:pointer}
+button,input,textarea{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
 
 .app{
- max-width:520px;
- min-height:100vh;
- margin:auto;
- padding-bottom:100px;
+  max-width:760px;
+  margin:auto;
+  min-height:100vh;
+  padding:24px 18px 110px;
 }
 
-/* ---------- 首页 ---------- */
-
-.header{
- padding:42px 22px 22px;
+.top{
+  margin-bottom:28px;
 }
 
-.hello{
- font-size:12px;
- letter-spacing:2px;
- color:#A39A91;
- margin-bottom:9px;
+.back{
+  background:none;
+  color:#aaa29b;
+  font-size:15px;
+  padding:5px 0;
 }
 
-.title{
- margin:0;
- font-size:32px;
- font-weight:800;
- letter-spacing:-1px;
+h1{
+  font-size:36px;
+  margin:22px 0 5px;
+  letter-spacing:-1px;
 }
 
 .subtitle{
- margin-top:9px;
- font-size:14px;
- color:#968D85;
+  color:#a49b92;
+  font-size:16px;
 }
 
-/* ---------- 进度 ---------- */
-
-.progress-card{
- margin:0 18px 18px;
- padding:19px;
- background:#FFFDF9;
- border-radius:26px;
- box-shadow:0 8px 28px rgba(70,55,40,.06);
+.card{
+  background:#fffdf9;
+  border-radius:30px;
+  padding:20px;
+  margin:16px 0;
+  box-shadow:0 8px 25px rgba(80,65,50,.07);
 }
-
-.progress-top{
- display:flex;
- justify-content:space-between;
- margin-bottom:12px;
-}
-
-.progress-title{
- font-size:14px;
- font-weight:700;
-}
-
-.progress-number{
- color:#9B9188;
- font-size:13px;
-}
-
-.progress-bar{
- height:8px;
- background:#EEE7DF;
- border-radius:20px;
- overflow:hidden;
-}
-
-.progress-fill{
- height:100%;
- width:0;
- background:linear-gradient(90deg,#E6A48F,#D5B38D);
- border-radius:20px;
- transition:.45s;
-}
-
-/* ---------- 三餐卡片 ---------- */
 
 .meal-card{
- margin:14px 18px;
- padding:20px;
- background:#FFFDF9;
- border-radius:28px;
- box-shadow:0 8px 26px rgba(70,55,40,.055);
- overflow:hidden;
- position:relative;
- transition:.18s;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:105px;
 }
 
-.meal-card:active{
- transform:scale(.985);
-}
-
-.meal-card:after{
- content:"";
- position:absolute;
- width:110px;
- height:110px;
- right:-40px;
- top:-45px;
- border-radius:50%;
- background:#F5E8DF;
- opacity:.75;
-}
-
-.lunch:after{background:#E7EEE3}
-.dinner:after{background:#E9E5EE}
-
-.meal-head{
- position:relative;
- z-index:1;
- display:flex;
- align-items:center;
- gap:13px;
+.meal-left{
+  display:flex;
+  align-items:center;
+  gap:16px;
 }
 
 .meal-icon{
- width:49px;
- height:49px;
- border-radius:17px;
- background:#F7E8DF;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:25px;
+  width:65px;
+  height:65px;
+  border-radius:22px;
+  background:#eee6dc;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:32px;
 }
 
-.lunch .meal-icon{background:#E7EEE3}
-.dinner .meal-icon{background:#E8E4ED}
-
-.meal-name{
- font-size:20px;
- font-weight:800;
+.meal-title{
+  font-size:22px;
+  font-weight:700;
 }
 
-.meal-desc{
- margin-top:3px;
- font-size:12px;
- color:#A39A91;
+.meal-selected{
+  margin-top:5px;
+  color:#a59b92;
+  font-size:14px;
 }
 
-.meal-result{
- margin-top:17px;
- padding:14px;
- background:#FAF6F0;
- border-radius:18px;
- display:flex;
- justify-content:space-between;
- align-items:center;
+.arrow{
+  font-size:28px;
+  color:#b3aaa2;
 }
 
-.result-name{
- font-size:15px;
- font-weight:700;
+.progress-card{
+  padding:22px;
 }
 
-.not-selected{
- color:#AAA19A;
- font-weight:500;
+.progress-title{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:12px;
+  font-weight:600;
 }
 
-.check{
- color:#91A487;
- font-size:12px;
- font-weight:700;
+.progress-bg{
+  height:12px;
+  background:#eee7df;
+  border-radius:20px;
+  overflow:hidden;
 }
 
-.meal-button{
- width:100%;
- border:0;
- margin-top:12px;
- padding:13px;
- border-radius:17px;
- background:#F1E2D8;
- color:#725A4D;
- font-size:14px;
- font-weight:700;
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#d7b9aa;
+  border-radius:20px;
+  transition:.3s;
 }
 
-.lunch .meal-button{
- background:#E4EBDF;
- color:#607059;
+.random{
+  width:100%;
+  padding:17px;
+  border-radius:22px;
+  background:#e8d7cc;
+  color:#514842;
+  font-weight:700;
+  font-size:17px;
+  margin-top:8px;
 }
 
-.dinner .meal-button{
- background:#E5E1EB;
- color:#686073;
-}
-
-/* ---------- 随机按钮 ---------- */
-
-.random-wrap{
- padding:8px 18px;
-}
-
-.random-button{
- width:100%;
- padding:16px;
- border:0;
- border-radius:21px;
- background:#403B36;
- color:white;
- font-size:15px;
- font-weight:700;
- box-shadow:0 8px 20px rgba(60,50,40,.12);
-}
-
-.random-button:active{
- transform:scale(.98);
-}
-
-/* ---------- 页面切换 ---------- */
-
-.page{display:none}
-.page.active{display:block}
-
-/* ---------- 选择页面 ---------- */
-
-.back{
- margin:18px 20px;
- border:0;
- background:transparent;
- color:#81776F;
- font-size:14px;
- padding:5px;
-}
-
-.choice-title{
- padding:5px 22px 16px;
-}
-
-.choice-title h2{
- margin:0;
- font-size:28px;
-}
-
-.choice-title p{
- margin-top:7px;
- color:#999087;
- font-size:13px;
-}
-
-.option{
- margin:12px 18px;
- padding:13px;
- background:#FFFDF9;
- border-radius:23px;
- display:flex;
- gap:13px;
- align-items:center;
- box-shadow:0 7px 22px rgba(70,55,40,.05);
+.option-card{
+  display:flex;
+  align-items:center;
+  gap:20px;
 }
 
 .option-image{
- width:78px;
- height:78px;
- flex-shrink:0;
- object-fit:cover;
- border-radius:19px;
- background:#EEE7DF;
+  width:125px;
+  height:125px;
+  object-fit:cover;
+  border-radius:25px;
+  background:#eee8df;
+  flex-shrink:0;
 }
 
 .option-info{
- flex:1;
- min-width:0;
+  flex:1;
 }
 
 .option-name{
- font-size:16px;
- font-weight:750;
+  font-size:21px;
+  font-weight:700;
+  margin-bottom:7px;
 }
 
 .option-desc{
- margin-top:5px;
- color:#9B928A;
- font-size:12px;
- line-height:1.5;
+  color:#9d948c;
+  margin-bottom:15px;
 }
 
-.select-button{
- margin-top:9px;
- padding:8px 14px;
- border:0;
- border-radius:14px;
- background:#F0E3D9;
- color:#725C50;
- font-size:12px;
- font-weight:700;
+.choose{
+  background:#eadbd2;
+  color:#554b45;
+  padding:11px 20px;
+  border-radius:20px;
+  font-weight:700;
 }
 
-.option.selected{
- outline:2px solid #D8BBA8;
-}
-
-/* ---------- 我的菜单 ---------- */
-
-.manage-header{
- padding:42px 22px 20px;
-}
-
-.manage-header h2{
- margin:0;
- font-size:28px;
-}
-
-.manage-header p{
- color:#999087;
- font-size:13px;
+.section-title{
+  font-size:25px;
+  font-weight:700;
+  margin:20px 0 12px;
 }
 
 .form{
- margin:0 18px;
- padding:20px;
- background:#FFFDF9;
- border-radius:25px;
- box-shadow:0 7px 22px rgba(70,55,40,.05);
+  background:#fffdf9;
+  border-radius:28px;
+  padding:20px;
+  margin-top:15px;
 }
 
 label{
- display:block;
- margin:12px 0 7px;
- color:#8F867E;
- font-size:12px;
+  display:block;
+  font-weight:600;
+  margin:14px 0 7px;
 }
 
-input,textarea,select{
- width:100%;
- border:1px solid #EEE5DC;
- outline:none;
- padding:12px;
- border-radius:15px;
- background:#FAF7F2;
- color:#403B36;
- font-size:14px;
+input[type=text],
+textarea,
+select{
+  width:100%;
+  border:0;
+  outline:0;
+  background:#f3eee7;
+  border-radius:16px;
+  padding:14px;
+  color:#403a36;
 }
 
 textarea{
- resize:none;
+  min-height:90px;
+  resize:none;
 }
 
-input:focus,textarea:focus,select:focus{
- border-color:#D9C2B2;
+.photo-btn{
+  display:block;
+  width:100%;
+  padding:15px;
+  background:#f0e4db;
+  border-radius:18px;
+  text-align:center;
+  margin-top:10px;
+  font-weight:600;
 }
 
-.add-button{
- width:100%;
- margin-top:15px;
- padding:14px;
- border:0;
- border-radius:17px;
- background:#403B36;
- color:white;
- font-size:14px;
- font-weight:700;
+.file-name{
+  color:#aaa099;
+  font-size:13px;
+  margin-top:7px;
 }
 
-.menu-list{
- margin:18px;
+.save-btn{
+  width:100%;
+  padding:16px;
+  background:#d8b8a8;
+  color:white;
+  border-radius:20px;
+  margin-top:18px;
+  font-weight:700;
 }
 
-.menu-item{
- margin-bottom:10px;
- padding:15px;
- background:#FFFDF9;
- border-radius:20px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:12px;
+.my-item{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:15px 0;
+  border-bottom:1px solid #eee7df;
 }
 
-.menu-food{
- font-size:14px;
- font-weight:700;
+.my-item:last-child{
+  border-bottom:0;
 }
 
-.menu-type{
- margin-top:4px;
- color:#A0978F;
- font-size:11px;
+.small-image{
+  width:70px;
+  height:70px;
+  object-fit:cover;
+  border-radius:18px;
+  background:#eee8df;
 }
 
-.delete{
- border:0;
- padding:8px 10px;
- border-radius:12px;
- background:#F5E4DF;
- color:#A16F64;
+.my-info{
+  flex:1;
 }
 
-/* ---------- 底部导航 ---------- */
-
-.bottom-nav{
- position:fixed;
- left:50%;
- bottom:13px;
- transform:translateX(-50%);
- width:calc(100% - 34px);
- max-width:485px;
- padding:9px;
- background:rgba(255,253,249,.94);
- backdrop-filter:blur(15px);
- border-radius:23px;
- display:flex;
- justify-content:space-around;
- box-shadow:0 8px 30px rgba(60,50,40,.13);
- z-index:20;
+.my-name{
+  font-weight:700;
+  font-size:17px;
 }
 
-.nav-button{
- flex:1;
- border:0;
- background:transparent;
- padding:7px;
- color:#A29A92;
- font-size:11px;
+.my-type{
+  color:#aaa099;
+  font-size:13px;
+  margin-top:4px;
 }
 
-.nav-button.active{
- color:#403B36;
- font-weight:700;
+.action-row{
+  display:flex;
+  gap:7px;
+  margin-top:8px;
+}
+
+.change-photo,
+.delete-btn{
+  padding:7px 11px;
+  border-radius:13px;
+  font-size:13px;
+}
+
+.change-photo{
+  background:#eee2d9;
+}
+
+.delete-btn{
+  background:#f1e5e0;
+  color:#a06d60;
+}
+
+.bottom{
+  position:fixed;
+  bottom:15px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(92%,700px);
+  background:#fffdf9;
+  border-radius:30px;
+  padding:12px;
+  display:flex;
+  box-shadow:0 10px 35px rgba(60,45,30,.13);
+  z-index:10;
+}
+
+.nav-btn{
+  flex:1;
+  background:none;
+  color:#aaa099;
+  padding:7px;
+  font-size:14px;
+}
+
+.nav-btn.active{
+  color:#514943;
+  font-weight:700;
 }
 
 .nav-icon{
- display:block;
- margin-bottom:2px;
- font-size:20px;
+  display:block;
+  font-size:24px;
+  margin-bottom:3px;
 }
 
-/* ---------- Toast ---------- */
-
-.toast{
- position:fixed;
- left:50%;
- bottom:88px;
- transform:translateX(-50%) translateY(20px);
- padding:11px 17px;
- border-radius:15px;
- background:#403B36;
- color:white;
- font-size:13px;
- opacity:0;
- pointer-events:none;
- transition:.3s;
- z-index:50;
- white-space:nowrap;
+.hidden{
+  display:none!important;
 }
 
-.toast.show{
- opacity:1;
- transform:translateX(-50%) translateY(0);
+.empty{
+  text-align:center;
+  color:#aaa099;
+  padding:25px 0;
+}
+
+@media(max-width:500px){
+  .option-image{
+    width:105px;
+    height:105px;
+  }
+
+  .option-card{
+    gap:15px;
+  }
+
+  h1{
+    font-size:34px;
+  }
 }
 </style>
 </head>
@@ -480,726 +362,814 @@ input:focus,textarea:focus,select:focus{
 
 <div class="app">
 
-<!-- ================= 首页 ================= -->
+  <!-- 首页 -->
+  <section id="homePage">
+    <div class="top">
+      <h1>🍚 今天吃什么？</h1>
+      <div class="subtitle">好好吃饭，好好生活 ♡</div>
+    </div>
 
-<div id="homePage" class="page active">
+    <div id="homeMeals"></div>
 
- <div class="header">
-  <div class="hello">GOOD FOOD · GOOD DAY</div>
-  <h1 class="title">今天吃什么？</h1>
-  <div class="subtitle">好好吃饭，好好生活 ♡</div>
- </div>
+    <div class="card progress-card">
+      <div class="progress-title">
+        <span>今日进度</span>
+        <span id="progressText">0 / 3</span>
+      </div>
 
- <div class="progress-card">
-  <div class="progress-top">
-   <div class="progress-title">今日吃饭进度</div>
-   <div class="progress-number" id="progressText">0 / 3</div>
-  </div>
+      <div class="progress-bg">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
 
-  <div class="progress-bar">
-   <div class="progress-fill" id="progressFill"></div>
-  </div>
- </div>
+    <button class="random" onclick="randomAll()">
+      🎲 今天不想选，帮我决定
+    </button>
+  </section>
 
- <div id="mealCards"></div>
+  <!-- 选择页面 -->
+  <section id="choicePage" class="hidden">
+    <div class="top">
+      <button class="back" onclick="goHome()">‹ 返回</button>
+      <h1 id="choiceTitle">🍱 午餐</h1>
+      <div class="subtitle">选一个你今天想吃的吧 ♡</div>
+    </div>
 
- <div class="random-wrap">
-  <button class="random-button" onclick="randomAll()">
-   🎲 今天不想选，帮我决定
-  </button>
- </div>
+    <div id="options"></div>
+  </section>
+
+  <!-- 我的菜单 -->
+  <section id="menuPage" class="hidden">
+    <div class="top">
+      <h1>♡ 我的菜单</h1>
+      <div class="subtitle">把喜欢吃的东西都放进来</div>
+    </div>
+
+    <div class="form">
+      <div class="section-title">添加一道菜</div>
+
+      <label>菜名</label>
+      <input id="foodName" type="text" placeholder="比如：番茄鸡蛋面">
+
+      <label>属于哪一餐？</label>
+      <select id="foodType">
+        <option value="breakfast">🥐 早餐</option>
+        <option value="lunch">🍱 午餐</option>
+        <option value="dinner">🍲 晚餐</option>
+      </select>
+
+      <label>照片</label>
+
+      <input
+        id="photoInput"
+        class="hidden"
+        type="file"
+        accept="image/*"
+        onchange="showFileName()"
+      >
+
+      <label class="photo-btn" for="photoInput">
+        📷 从相册选择照片
+      </label>
+
+      <div id="fileName" class="file-name">
+        还没有选择照片
+      </div>
+
+      <label>描述</label>
+      <textarea id="foodDesc" placeholder="比如：今天特别想吃～"></textarea>
+
+      <button class="save-btn" onclick="addFood()">
+        保存这道菜 ♡
+      </button>
+    </div>
+
+    <div class="section-title">我的菜品</div>
+    <div class="card" id="myFoods"></div>
+  </section>
 
 </div>
 
-
-<!-- ================= 选择页面 ================= -->
-
-<div id="choicePage" class="page">
-
- <button class="back" onclick="goHome()">‹ 返回</button>
-
- <div class="choice-title">
-  <h2 id="choiceTitle">早餐</h2>
-  <p>选一个你今天想吃的吧 ♡</p>
- </div>
-
- <div id="options"></div>
-
-</div>
-
-
-<!-- ================= 我的菜单 ================= -->
-
-<div id="managePage" class="page">
-
- <div class="manage-header">
-  <h2>我的菜单</h2>
-  <p>把喜欢吃的东西都放进来吧 ♡</p>
- </div>
-
- <div class="form">
-
-  <label>餐次</label>
-
-  <select id="mealType">
-   <option value="breakfast">☀️ 早餐</option>
-   <option value="lunch">🍱 午餐</option>
-   <option value="dinner">🌙 晚餐</option>
-  </select>
-
-
-  <label>菜品名称</label>
-
-  <input
-   id="foodName"
-   placeholder="例如：草莓酸奶碗"
-  >
-
-
-  <label>图片网址</label>
-
-  <input
-   id="foodImage"
-   placeholder="可以暂时不填"
-  >
-
-
-  <label>一句话描述</label>
-
-  <textarea
-   id="foodDesc"
-   rows="2"
-   placeholder="例如：酸酸甜甜，适合早晨～"
-  ></textarea>
-
-
-  <button class="add-button" onclick="addFood()">
-   ＋ 添加到我的菜单
+<!-- 底部导航 -->
+<div class="bottom">
+  <button class="nav-btn active" id="homeNav" onclick="goHome()">
+    <span class="nav-icon">🍽️</span>
+    今日三餐
   </button>
 
- </div>
-
- <div class="menu-list" id="menuList"></div>
-
+  <button class="nav-btn" id="menuNav" onclick="goMenu()">
+    <span class="nav-icon">♡</span>
+    我的菜单
+  </button>
 </div>
-
-</div>
-
-
-<!-- ================= 底部导航 ================= -->
-
-<div class="bottom-nav">
-
- <button
-  class="nav-button active"
-  id="homeNav"
-  onclick="goHome()"
- >
-  <span class="nav-icon">🍽️</span>
-  今日三餐
- </button>
-
- <button
-  class="nav-button"
-  id="manageNav"
-  onclick="goManage()"
- >
-  <span class="nav-icon">♡</span>
-  我的菜单
- </button>
-
-</div>
-
-
-<div class="toast" id="toast"></div>
-
 
 <script>
 
-/* ================= 默认菜单 ================= */
-
 const defaultMenu = {
+  breakfast:[
+    {name:"早餐选项 1",image:"",desc:"开启元气的一天"},
+    {name:"早餐选项 2",image:"",desc:"简单又满足"},
+    {name:"早餐选项 3",image:"",desc:"今天也要好好吃饭"}
+  ],
 
- breakfast:[
-  {
-   name:"早餐选项 1",
-   image:"",
-   desc:"开启元气的一天"
-  },
-  {
-   name:"早餐选项 2",
-   image:"",
-   desc:"简单又满足"
-  },
-  {
-   name:"早餐选项 3",
-   image:"",
-   desc:"今天也要好好吃饭"
-  }
- ],
- lunch:[
-  {
-    name:"午餐选项 1",
-    image:"IMG_4203.jpeg",
-    desc:"好好吃午饭"
-  },
-  {
-   name:"午餐选项 2",
-   image:"",
-   desc:"今天想吃这个"
-  },
-  {
-   name:"午餐选项 3",
-   image:"",
-   desc:"幸福感满满"
-  }
- ],
+  lunch:[
+    {name:"午餐选项 1",image:"",desc:"好好吃午饭"},
+    {name:"午餐选项 2",image:"",desc:"今天想吃这个"},
+    {name:"午餐选项 3",image:"",desc:"幸福感满满"}
+  ],
 
- dinner:[
-  {
-   name:"晚餐选项 1",
-   image:"",
-   desc:"给今天一个温柔的收尾"
-  },
-  {
-   name:"晚餐选项 2",
-   image:"",
-   desc:"晚上也要好好吃饭"
-  },
-  {
-   name:"晚餐选项 3",
-   image:"",
-   desc:"舒服地结束一天"
-  }
- ]
-
+  dinner:[
+    {name:"晚餐选项 1",image:"",desc:"给今天一个温柔的收尾"},
+    {name:"晚餐选项 2",image:"",desc:"晚上也要好好吃饭"},
+    {name:"晚餐选项 3",image:"",desc:"舒服地结束一天"}
+  ]
 };
-
-
-/* ================= 数据 ================= */
 
 let menu =
- JSON.parse(localStorage.getItem("mealMenu"))
- || JSON.parse(JSON.stringify(defaultMenu));
+  JSON.parse(localStorage.getItem("mealMenu"))
+  || JSON.parse(JSON.stringify(defaultMenu));
 
 let selected =
- JSON.parse(localStorage.getItem("todayMeals"))
- || {};
+  JSON.parse(localStorage.getItem("todayMeals"))
+  || {};
 
-let currentMeal="";
-
-
-const mealInfo={
-
- breakfast:{
-  name:"早餐",
-  icon:"☀️",
-  desc:"开启元气的一天"
- },
-
- lunch:{
-  name:"午餐",
-  icon:"🍱",
-  desc:"今天中午吃什么？"
- },
-
- dinner:{
-  name:"晚餐",
-  icon:"🌙",
-  desc:"给今天一个温柔的收尾"
- }
-
-};
+let currentType = null;
 
 
-/* ================= 保存 ================= */
+/* =========================
+   IndexedDB：保存手机照片
+========================= */
 
-function save(){
+let db;
 
- localStorage.setItem(
-  "mealMenu",
-  JSON.stringify(menu)
- );
+function openDB(){
+  return new Promise((resolve,reject)=>{
+    const request=indexedDB.open("MealPhotoDB",1);
 
- localStorage.setItem(
-  "todayMeals",
-  JSON.stringify(selected)
- );
+    request.onupgradeneeded=function(e){
+      const database=e.target.result;
 
+      if(!database.objectStoreNames.contains("photos")){
+        database.createObjectStore("photos");
+      }
+    };
+
+    request.onsuccess=function(e){
+      db=e.target.result;
+      resolve(db);
+    };
+
+    request.onerror=function(){
+      reject(request.error);
+    };
+  });
+}
+
+async function savePhoto(file){
+
+  await openDB();
+
+  const dataUrl=await resizeImage(file);
+
+  const key="photo_"+Date.now()+"_"+Math.random();
+
+  return new Promise((resolve,reject)=>{
+
+    const tx=db.transaction("photos","readwrite");
+
+    tx.objectStore("photos").put(dataUrl,key);
+
+    tx.oncomplete=()=>{
+      resolve(key);
+    };
+
+    tx.onerror=()=>{
+      reject(tx.error);
+    };
+
+  });
+}
+
+async function getPhoto(key){
+
+  if(!key || !key.startsWith("photo_")){
+    return key || "";
+  }
+
+  await openDB();
+
+  return new Promise((resolve)=>{
+
+    const tx=db.transaction("photos","readonly");
+
+    const request=tx.objectStore("photos").get(key);
+
+    request.onsuccess=()=>{
+      resolve(request.result || "");
+    };
+
+    request.onerror=()=>{
+      resolve("");
+    };
+
+  });
+}
+
+function deletePhoto(key){
+
+  if(!key || !key.startsWith("photo_") || !db) return;
+
+  const tx=db.transaction("photos","readwrite");
+
+  tx.objectStore("photos").delete(key);
 }
 
 
-/* ================= 首页 ================= */
+/* =========================
+   压缩照片
+========================= */
+
+function resizeImage(file){
+
+  return new Promise((resolve,reject)=>{
+
+    const reader=new FileReader();
+
+    reader.onload=function(){
+
+      const img=new Image();
+
+      img.onload=function(){
+
+        const max=1200;
+
+        let width=img.width;
+        let height=img.height;
+
+        if(width>max || height>max){
+
+          if(width>height){
+            height=height*max/width;
+            width=max;
+          }else{
+            width=width*max/height;
+            height=max;
+          }
+
+        }
+
+        const canvas=document.createElement("canvas");
+
+        canvas.width=width;
+        canvas.height=height;
+
+        const ctx=canvas.getContext("2d");
+
+        ctx.drawImage(img,0,0,width,height);
+
+        resolve(
+          canvas.toDataURL("image/jpeg",0.82)
+        );
+      };
+
+      img.onerror=reject;
+
+      img.src=reader.result;
+    };
+
+    reader.onerror=reject;
+
+    reader.readAsDataURL(file);
+
+  });
+}
+
+
+/* =========================
+   保存菜单
+========================= */
+
+function saveMenu(){
+  localStorage.setItem(
+    "mealMenu",
+    JSON.stringify(menu)
+  );
+}
+
+
+/* =========================
+   图片显示
+========================= */
+
+async function imageSrc(image){
+
+  if(!image){
+    return "data:image/svg+xml;charset=UTF-8,"+
+      encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
+          <rect width="100%" height="100%" fill="#eee8df"/>
+          <text x="50%" y="53%" text-anchor="middle"
+            font-size="70">🍽️</text>
+        </svg>
+      `);
+  }
+
+  return await getPhoto(image);
+}
+
+
+/* =========================
+   首页
+========================= */
 
 function renderHome(){
 
- const box=document.getElementById("mealCards");
+  const box=document.getElementById("homeMeals");
 
- box.innerHTML="";
+  const types=[
+    ["breakfast","🥐","早餐"],
+    ["lunch","🍱","午餐"],
+    ["dinner","🍲","晚餐"]
+  ];
 
+  box.innerHTML="";
 
- ["breakfast","lunch","dinner"].forEach(type=>{
+  types.forEach(([type,icon,title])=>{
 
-  const info=mealInfo[type];
+    const item=selected[type];
 
-  const value=selected[type];
+    const card=document.createElement("div");
 
-  const card=document.createElement("div");
+    card.className="card meal-card";
 
-  card.className="meal-card "+type;
+    card.onclick=()=>{
+      openChoice(type);
+    };
 
+    card.innerHTML=`
+      <div class="meal-left">
+        <div class="meal-icon">${icon}</div>
+        <div>
+          <div class="meal-title">${title}</div>
+          <div class="meal-selected">
+            ${item ? item : "还没有选择"}
+          </div>
+        </div>
+      </div>
 
-  card.innerHTML=`
+      <div class="arrow">›</div>
+    `;
 
-   <div class="meal-head">
-
-    <div class="meal-icon">
-     ${info.icon}
-    </div>
-
-    <div>
-
-     <div class="meal-name">
-      ${info.name}
-     </div>
-
-     <div class="meal-desc">
-      ${info.desc}
-     </div>
-
-    </div>
-
-   </div>
-
-
-   <div class="meal-result">
-
-    <div class="result-name ${value?"":"not-selected"}">
-
-     ${value ? escapeHTML(value.name) : "还没有选择"}
-
-    </div>
-
-    ${
-     value
-     ? '<div class="check">✓ 已选择</div>'
-     : ''
-    }
-
-   </div>
-
-
-   <button
-    class="meal-button"
-    onclick="openChoice('${type}')"
-   >
-
-    ${value ? "重新选择" : "去选择 →"}
-
-   </button>
-
-  `;
-
-  box.appendChild(card);
-
- });
-
-
- updateProgress();
-
-}
-
-
-/* ================= 进度 ================= */
-
-function updateProgress(){
-
- const count=
-  ["breakfast","lunch","dinner"]
-  .filter(type=>selected[type])
-  .length;
-
- document.getElementById("progressText")
-  .innerText=count+" / 3";
-
- document.getElementById("progressFill")
-  .style.width=(count/3*100)+"%";
-
-}
-
-
-/* ================= 打开选择 ================= */
-
-function openChoice(type){
-
- currentMeal=type;
-
- document.getElementById("homePage")
-  .classList.remove("active");
-
- document.getElementById("managePage")
-  .classList.remove("active");
-
- document.getElementById("choicePage")
-  .classList.add("active");
-
- document.getElementById("choiceTitle")
-  .innerText=
-  mealInfo[type].icon+" "+mealInfo[type].name;
-
- renderOptions();
-
-}
-
-
-/* ================= 选择列表 ================= */
-
-function renderOptions(){
-
- const box=document.getElementById("options");
-
- box.innerHTML="";
-
-
- menu[currentMeal].forEach((food,index)=>{
-
-  const option=document.createElement("div");
-
-  option.className="option";
-
-
-  const image=
-   food.image ||
-   "data:image/svg+xml;charset=UTF-8,"+
-   encodeURIComponent(`
-    <svg xmlns="http://www.w3.org/2000/svg"
-     width="150" height="150">
-     <rect width="100%" height="100%"
-      fill="#eee7df"/>
-     <text x="50%" y="50%"
-      text-anchor="middle"
-      dominant-baseline="middle"
-      font-size="38">
-      🍽️
-     </text>
-    </svg>
-   `);
-
-
-  const isSelected=
-   selected[currentMeal] &&
-   selected[currentMeal].name===food.name;
-
-
-  option.className=
-   "option "+(isSelected?"selected":"");
-
-
-  option.innerHTML=`
-
-   <img
-    class="option-image"
-    src="${escapeAttr(image)}"
-    onerror="this.style.display='none'"
-   >
-
-   <div class="option-info">
-
-    <div class="option-name">
-     ${escapeHTML(food.name)}
-    </div>
-
-    <div class="option-desc">
-     ${escapeHTML(food.desc || "")}
-    </div>
-
-    <button
-     class="select-button"
-     onclick="selectFood(${index})"
-    >
-     ${isSelected ? "✓ 已选择" : "选择这个"}
-    </button>
-
-   </div>
-
-  `;
-
-  box.appendChild(option);
-
- });
-
-}
-
-
-/* ================= 选择食物 ================= */
-
-function selectFood(index){
-
- selected[currentMeal]=
-  menu[currentMeal][index];
-
- save();
-
- showToast("已经帮你选好了 ♡");
-
- setTimeout(goHome,450);
-
-}
-
-
-/* ================= 随机三餐 ================= */
-
-function randomAll(){
-
- ["breakfast","lunch","dinner"].forEach(type=>{
-
-  if(menu[type].length){
-
-   const index=
-    Math.floor(
-     Math.random()*menu[type].length
-    );
-
-   selected[type]=menu[type][index];
-
-  }
-
- });
-
- save();
-
- renderHome();
-
- showToast("今天的三餐决定好了 ♡");
-
-}
-
-
-/* ================= 回首页 ================= */
-
-function goHome(){
-
- document.getElementById("choicePage")
-  .classList.remove("active");
-
- document.getElementById("managePage")
-  .classList.remove("active");
-
- document.getElementById("homePage")
-  .classList.add("active");
-
- document.getElementById("homeNav")
-  .classList.add("active");
-
- document.getElementById("manageNav")
-  .classList.remove("active");
-
- renderHome();
-
-}
-
-
-/* ================= 我的菜单 ================= */
-
-function goManage(){
-
- document.getElementById("homePage")
-  .classList.remove("active");
-
- document.getElementById("choicePage")
-  .classList.remove("active");
-
- document.getElementById("managePage")
-  .classList.add("active");
-
- document.getElementById("homeNav")
-  .classList.remove("active");
-
- document.getElementById("manageNav")
-  .classList.add("active");
-
- renderMenu();
-
-}
-
-
-/* ================= 添加菜品 ================= */
-
-function addFood(){
-
- const type=
-  document.getElementById("mealType").value;
-
- const name=
-  document.getElementById("foodName")
-  .value.trim();
-
- const image=
-  document.getElementById("foodImage")
-  .value.trim();
-
- const desc=
-  document.getElementById("foodDesc")
-  .value.trim();
-
-
- if(!name){
-
-  showToast("先写一个菜品名称吧～");
-
-  return;
-
- }
-
-
- menu[type].push({
-  name:name,
-  image:image,
-  desc:desc
- });
-
-
- save();
-
-
- document.getElementById("foodName").value="";
- document.getElementById("foodImage").value="";
- document.getElementById("foodDesc").value="";
-
-
- renderMenu();
-
- showToast("已经加入你的菜单 ♡");
-
-}
-
-
-/* ================= 菜单列表 ================= */
-
-function renderMenu(){
-
- const box=document.getElementById("menuList");
-
- box.innerHTML="";
-
-
- ["breakfast","lunch","dinner"].forEach(type=>{
-
-  menu[type].forEach((food,index)=>{
-
-   const item=document.createElement("div");
-
-   item.className="menu-item";
-
-
-   item.innerHTML=`
-
-    <div>
-
-     <div class="menu-food">
-      ${mealInfo[type].icon}
-      ${escapeHTML(food.name)}
-     </div>
-
-     <div class="menu-type">
-      ${mealInfo[type].name}
-     </div>
-
-    </div>
-
-    <button
-     class="delete"
-     onclick="deleteFood('${type}',${index})"
-    >
-     删除
-    </button>
-
-   `;
-
-   box.appendChild(item);
+    box.appendChild(card);
 
   });
 
- });
-
+  updateProgress();
 }
 
 
-/* ================= 删除菜品 ================= */
+/* =========================
+   选择页面
+========================= */
+
+function openChoice(type){
+
+  currentType=type;
+
+  document.getElementById("homePage")
+    .classList.add("hidden");
+
+  document.getElementById("menuPage")
+    .classList.add("hidden");
+
+  document.getElementById("choicePage")
+    .classList.remove("hidden");
+
+  const names={
+    breakfast:"🥐 早餐",
+    lunch:"🍱 午餐",
+    dinner:"🍲 晚餐"
+  };
+
+  document.getElementById("choiceTitle").innerText=
+    names[type];
+
+  renderOptions();
+}
+
+async function renderOptions(){
+
+  const box=document.getElementById("options");
+
+  box.innerHTML="";
+
+  for(let i=0;i<menu[currentType].length;i++){
+
+    const food=menu[currentType][i];
+
+    const card=document.createElement("div");
+
+    card.className="card option-card";
+
+    const img=document.createElement("img");
+
+    img.className="option-image";
+
+    img.src=await imageSrc(food.image);
+
+    img.onerror=function(){
+      this.src=imageSrc("");
+    };
+
+    const info=document.createElement("div");
+
+    info.className="option-info";
+
+    info.innerHTML=`
+      <div class="option-name">
+        ${escapeHtml(food.name)}
+      </div>
+
+      <div class="option-desc">
+        ${escapeHtml(food.desc || "")}
+      </div>
+    `;
+
+    const btn=document.createElement("button");
+
+    btn.className="choose";
+
+    btn.innerText="选择这个";
+
+    btn.onclick=function(){
+      selectFood(food.name);
+    };
+
+    info.appendChild(btn);
+
+    card.appendChild(img);
+    card.appendChild(info);
+
+    box.appendChild(card);
+  }
+}
+
+function selectFood(name){
+
+  selected[currentType]=name;
+
+  localStorage.setItem(
+    "todayMeals",
+    JSON.stringify(selected)
+  );
+
+  goHome();
+}
+
+
+/* =========================
+   随机选择
+========================= */
+
+function randomAll(){
+
+  ["breakfast","lunch","dinner"].forEach(type=>{
+
+    if(menu[type].length){
+
+      const random=
+        menu[type][
+          Math.floor(Math.random()*menu[type].length)
+        ];
+
+      selected[type]=random.name;
+    }
+
+  });
+
+  localStorage.setItem(
+    "todayMeals",
+    JSON.stringify(selected)
+  );
+
+  renderHome();
+}
+
+
+/* =========================
+   进度
+========================= */
+
+function updateProgress(){
+
+  const count=
+    ["breakfast","lunch","dinner"]
+    .filter(x=>selected[x]).length;
+
+  document.getElementById("progressText")
+    .innerText=count+" / 3";
+
+  document.getElementById("progressBar")
+    .style.width=(count/3*100)+"%";
+}
+
+
+/* =========================
+   我的菜单
+========================= */
+
+function goMenu(){
+
+  document.getElementById("homePage")
+    .classList.add("hidden");
+
+  document.getElementById("choicePage")
+    .classList.add("hidden");
+
+  document.getElementById("menuPage")
+    .classList.remove("hidden");
+
+  document.getElementById("homeNav")
+    .classList.remove("active");
+
+  document.getElementById("menuNav")
+    .classList.add("active");
+
+  renderMyFoods();
+}
+
+function goHome(){
+
+  document.getElementById("homePage")
+    .classList.remove("hidden");
+
+  document.getElementById("choicePage")
+    .classList.add("hidden");
+
+  document.getElementById("menuPage")
+    .classList.add("hidden");
+
+  document.getElementById("homeNav")
+    .classList.add("active");
+
+  document.getElementById("menuNav")
+    .classList.remove("active");
+
+  renderHome();
+}
+
+
+/* =========================
+   添加菜品
+========================= */
+
+function showFileName(){
+
+  const input=document.getElementById("photoInput");
+
+  document.getElementById("fileName").innerText=
+    input.files.length
+      ? "已选择："+input.files[0].name
+      : "还没有选择照片";
+}
+
+async function addFood(){
+
+  const name=
+    document.getElementById("foodName")
+      .value.trim();
+
+  const type=
+    document.getElementById("foodType").value;
+
+  const desc=
+    document.getElementById("foodDesc")
+      .value.trim();
+
+  const input=
+    document.getElementById("photoInput");
+
+  if(!name){
+
+    alert("先写一下菜名哦 ♡");
+
+    return;
+  }
+
+  let image="";
+
+  if(input.files.length){
+
+    try{
+
+      image=await savePhoto(input.files[0]);
+
+    }catch(e){
+
+      alert("照片保存失败，请再试一次");
+
+      return;
+    }
+  }
+
+  menu[type].push({
+    name:name,
+    image:image,
+    desc:desc || "今天也要好好吃饭"
+  });
+
+  saveMenu();
+
+  document.getElementById("foodName").value="";
+  document.getElementById("foodDesc").value="";
+  input.value="";
+  document.getElementById("fileName").innerText=
+    "还没有选择照片";
+
+  renderMyFoods();
+
+  alert("添加成功啦 ♡");
+}
+
+
+/* =========================
+   我的菜品列表
+========================= */
+
+async function renderMyFoods(){
+
+  const box=document.getElementById("myFoods");
+
+  box.innerHTML="";
+
+  const types=[
+    ["breakfast","🥐 早餐"],
+    ["lunch","🍱 午餐"],
+    ["dinner","🍲 晚餐"]
+  ];
+
+  let total=0;
+
+  for(const [type,typeName] of types){
+
+    for(let i=0;i<menu[type].length;i++){
+
+      total++;
+
+      const food=menu[type][i];
+
+      const row=document.createElement("div");
+
+      row.className="my-item";
+
+      const img=document.createElement("img");
+
+      img.className="small-image";
+
+      img.src=await imageSrc(food.image);
+
+      const info=document.createElement("div");
+
+      info.className="my-info";
+
+      info.innerHTML=`
+        <div class="my-name">
+          ${escapeHtml(food.name)}
+        </div>
+
+        <div class="my-type">
+          ${typeName}
+        </div>
+      `;
+
+      const actions=document.createElement("div");
+
+      actions.className="action-row";
+
+      const photoBtn=document.createElement("button");
+
+      photoBtn.className="change-photo";
+
+      photoBtn.innerText="📷 换照片";
+
+      photoBtn.onclick=()=>{
+        changePhoto(type,i);
+      };
+
+      const deleteBtn=document.createElement("button");
+
+      deleteBtn.className="delete-btn";
+
+      deleteBtn.innerText="删除";
+
+      deleteBtn.onclick=()=>{
+        deleteFood(type,i);
+      };
+
+      actions.appendChild(photoBtn);
+      actions.appendChild(deleteBtn);
+
+      info.appendChild(actions);
+
+      row.appendChild(img);
+      row.appendChild(info);
+
+      box.appendChild(row);
+    }
+  }
+
+  if(!total){
+
+    box.innerHTML=
+      `<div class="empty">还没有菜品 ♡</div>`;
+  }
+}
+
+
+/* =========================
+   给已有菜品换照片
+========================= */
+
+async function changePhoto(type,index){
+
+  const input=document.createElement("input");
+
+  input.type="file";
+  input.accept="image/*";
+
+  input.onchange=async function(){
+
+    if(!input.files.length) return;
+
+    try{
+
+      const oldImage=menu[type][index].image;
+
+      const newImage=
+        await savePhoto(input.files[0]);
+
+      menu[type][index].image=newImage;
+
+      saveMenu();
+
+      if(oldImage && oldImage.startsWith("photo_")){
+        deletePhoto(oldImage);
+      }
+
+      renderMyFoods();
+
+    }catch(e){
+
+      alert("照片保存失败，请再试一次");
+    }
+  };
+
+  input.click();
+}
+
+
+/* =========================
+   删除菜品
+========================= */
 
 function deleteFood(type,index){
 
- const food=menu[type][index];
+  const food=menu[type][index];
 
+  if(!confirm("确定要删除这道菜吗？")){
+    return;
+  }
 
- if(
-  selected[type] &&
-  selected[type].name===food.name
- ){
+  if(food.image){
+    deletePhoto(food.image);
+  }
 
-  delete selected[type];
+  menu[type].splice(index,1);
 
- }
+  saveMenu();
 
-
- menu[type].splice(index,1);
-
- save();
-
- renderMenu();
-
- renderHome();
-
- showToast("已经删除");
-
+  renderMyFoods();
 }
 
 
-/* ================= 小提示 ================= */
+/* =========================
+   防止特殊字符
+========================= */
 
-function showToast(text){
+function escapeHtml(str){
 
- const toast=document.getElementById("toast");
-
- toast.innerText=text;
-
- toast.classList.add("show");
-
- clearTimeout(window.toastTimer);
-
- window.toastTimer=setTimeout(()=>{
-
-  toast.classList.remove("show");
-
- },1800);
-
+  return String(str)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
 
-/* ================= 防止特殊字符影响页面 ================= */
-
-function escapeHTML(str){
-
- return String(str)
-  .replace(/&/g,"&amp;")
-  .replace(/</g,"&lt;")
-  .replace(/>/g,"&gt;")
-  .replace(/"/g,"&quot;")
-  .replace(/'/g,"&#039;");
-
-}
-
-
-function escapeAttr(str){
-
- return String(str)
-  .replace(/"/g,"%22")
-  .replace(/'/g,"%27");
-
-}
-
-
-/* ================= 启动 ================= */
+/* =========================
+   启动
+========================= */
 
 renderHome();
 
