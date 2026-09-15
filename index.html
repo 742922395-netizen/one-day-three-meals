@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>一日三餐</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#fff9f0;color:#292929;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial}
+.app{max-width:560px;margin:auto;padding:25px 18px 40px}
+h1{font-size:34px;margin:8px 0}
+.date{color:#999;font-size:14px;margin-bottom:25px}
+.meal,.progress,.form{background:white;border-radius:22px;padding:20px;margin:14px 0;box-shadow:0 6px 22px #0000000b}
+.meal{display:flex;align-items:center;gap:15px}
+.icon{font-size:38px;width:48px;text-align:center}
+.grow{flex:1}.label{color:#999;font-size:13px}.choice{font-size:19px;font-weight:bold;margin-top:5px}
+.arrow{font-size:30px;color:#bbb}
+.progress{margin-top:25px}.phead{display:flex;justify-content:space-between;font-weight:bold}
+.bar{height:12px;background:#eee;border-radius:20px;margin-top:15px;overflow:hidden}
+.fill{height:100%;background:#292929;width:0}
+button{border:0;border-radius:14px;padding:13px 17px;background:#292929;color:white;font-size:15px}
+.gray{background:#eee;color:#555}
+.actions{display:flex;gap:10px;margin-top:18px}
+.screen{display:none}.active{display:block}
+.back{background:none;color:#555;padding:4px 0}
+h2{font-size:30px;margin:18px 0 5px}.sub{color:#999;font-size:14px;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.food{background:white;border:3px solid transparent;border-radius:18px;padding:10px;box-shadow:0 5px 18px #0000000a}
+.selected{border-color:#292929}
+.photo{height:150px;border-radius:13px;background:#eee9e0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover}
+.placeholder{font-size:45px}.check{position:absolute;background:#292929;color:white;border-radius:50%;padding:5px 9px;margin:7px}
+.name{font-weight:bold;margin-top:10px}.desc{font-size:12px;color:#999;margin-top:5px}
+input,textarea,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;margin:6px 0 10px;font-size:15px}
+textarea{height:65px}
+.row{display:flex;justify-content:space-between;border-top:1px solid #eee;padding:12px 0}
+.del{background:#eee;color:#777;padding:8px 11px;font-size:12px}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<div id="home" class="screen active">
+<div class="date" id="date"></div>
+<h1>今天吃什么？</h1>
+
+<div class="meal" onclick="menu('breakfast')">
+<div class="icon">☀️</div><div class="grow">
+<div class="label">早餐</div><div class="choice" id="b">点击选择早餐</div>
+</div><div class="arrow">›</div>
+</div>
+
+<div class="meal" onclick="menu('lunch')">
+<div class="icon">🌤️</div><div class="grow">
+<div class="label">午餐</div><div class="choice" id="l">点击选择午餐</div>
+</div><div class="arrow">›</div>
+</div>
+
+<div class="meal" onclick="menu('dinner')">
+<div class="icon">🌙</div><div class="grow">
+<div class="label">晚餐</div><div class="choice" id="d">点击选择晚餐</div>
+</div><div class="arrow">›</div>
+</div>
+
+<div class="progress">
+<div class="phead"><span>今日完成</span><span id="count">0 / 3</span></div>
+<div class="bar"><div class="fill" id="fill"></div></div>
+<p id="tip" style="color:#999;font-size:13px">选好三餐，就完成今天的菜单啦</p>
+</div>
+
+<div class="actions">
+<button onclick="manage()">管理我的菜单</button>
+<button class="gray" onclick="resetDay()">重新选择</button>
+</div>
+</div>
+
+<div id="menu" class="screen">
+<button class="back" onclick="home()">‹ 返回</button>
+<h2 id="title"></h2>
+<div class="sub">点击你今天想吃的这一项</div>
+<div class="grid" id="grid"></div>
+</div>
+
+<div id="manage" class="screen">
+<button class="back" onclick="home()">‹ 返回</button>
+<h2>管理我的菜单</h2>
+<div class="sub">可以直接在手机里添加自己的菜品。</div>
+
+<div class="form">
+<select id="type">
+<option value="breakfast">早餐</option>
+<option value="lunch">午餐</option>
+<option value="dinner">晚餐</option>
+</select>
+<input id="name" placeholder="菜品名称">
+<input id="image" placeholder="图片网址（可以先不填）">
+<textarea id="desc" placeholder="菜品介绍"></textarea>
+<button onclick="add()">添加菜品</button>
+</div>
+
+<div id="list"></div>
+</div>
+
+</div>
+
+<script>
+const titles={breakfast:"早餐",lunch:"午餐",dinner:"晚餐"};
+
+let data=JSON.parse(localStorage.getItem("menu")||"null")||{
+breakfast:[
+{id:1,name:"早餐选项 1",image:"",desc:"换成你喜欢的早餐"},
+{id:2,name:"早餐选项 2",image:"",desc:"换成你喜欢的早餐"},
+{id:3,name:"早餐选项 3",image:"",desc:"换成你喜欢的早餐"}],
+lunch:[
+{id:4,name:"午餐选项 1",image:"",desc:"换成你喜欢的午餐"},
+{id:5,name:"午餐选项 2",image:"",desc:"换成你喜欢的午餐"},
+{id:6,name:"午餐选项 3",image:"",desc:"换成你喜欢的午餐"}],
+dinner:[
+{id:7,name:"晚餐选项 1",image:"",desc:"换成你喜欢的晚餐"},
+{id:8,name:"晚餐选项 2",image:"",desc:"换成你喜欢的晚餐"},
+{id:9,name:"晚餐选项 3",image:"",desc:"换成你喜欢的晚餐"}]};
+
+let today=JSON.parse(localStorage.getItem("today")||"{}");
+let current="";
+
+document.getElementById("date").innerText=
+new Date().toLocaleDateString("zh-CN",{year:"numeric",month:"long",day:"numeric"});
+
+function save(){
+localStorage.setItem("menu",JSON.stringify(data));
+localStorage.setItem("today",JSON.stringify(today));
+}
+
+function refresh(){
+let n=0;
+["breakfast","lunch","dinner"].forEach((x,i)=>{
+let id=["b","l","d"][i];
+document.getElementById(id).innerText=today[x]?.name||"点击选择"+titles[x];
+if(today[x])n++;
+});
+document.getElementById("count").innerText=n+" / 3";
+document.getElementById("fill").style.width=(n/3*100)+"%";
+document.getElementById("tip").innerText=n==3?"🎉 今天三餐都选好了！":"选好三餐，就完成今天的菜单啦";
+}
+
+function show(x){
+document.querySelectorAll(".screen").forEach(e=>e.classList.remove("active"));
+document.getElementById(x).classList.add("active");
+window.scrollTo(0,0);
+}
+
+function home(){show("home");refresh()}
+
+function menu(type){
+current=type;
+show("menu");
+document.getElementById("title").innerText=titles[type];
+let g=document.getElementById("grid");
+g.innerHTML="";
+
+data[type].forEach(x=>{
+let d=document.createElement("div");
+d.className="food "+(today[type]?.id==x.id?"selected":"");
+
+d.innerHTML=
+'<div class="photo">'+
+(x.image?'<img src="'+x.image+'">':'<div class="placeholder">🍽️</div>')+
+'</div>'+
+'<div class="name">'+x.name+'</div>'+
+'<div class="desc">'+x.desc+'</div>';
+
+d.onclick=()=>{
+today[type]=x;
+save();
+home();
+};
+
+g.appendChild(d);
+});
+}
+
+function manage(){
+show("manage");
+renderList();
+}
+
+function add(){
+let type=document.getElementById("type").value;
+let name=document.getElementById("name").value.trim();
+
+if(!name){
+alert("请填写菜品名称");
+return;
+}
+
+data[type].push({
+id:Date.now(),
+name:name,
+image:document.getElementById("image").value.trim(),
+desc:document.getElementById("desc").value.trim()
+});
+
+save();
+
+document.getElementById("name").value="";
+document.getElementById("image").value="";
+document.getElementById("desc").value="";
+
+renderList();
+alert("添加成功！");
+}
+
+function renderList(){
+let box=document.getElementById("list");
+box.innerHTML="";
+
+["breakfast","lunch","dinner"].forEach(type=>{
+let f=document.createElement("div");
+f.className="form";
+f.innerHTML="<b>"+titles[type]+"</b>";
+
+data[type].forEach(x=>{
+let r=document.createElement("div");
+r.className="row";
+r.innerHTML="<span>"+x.name+"</span>";
+
+let btn=document.createElement("button");
+btn.className="del";
+btn.innerText="删除";
+
+btn.onclick=()=>{
+data[type]=data[type].filter(a=>a.id!=x.id);
+if(today[type]?.id==x.id)delete today[type];
+save();
+renderList();
+};
+
+r.appendChild(btn);
+f.appendChild(r);
+});
+
+box.appendChild(f);
+});
+}
+
+function resetDay(){
+if(confirm("确定清空今天的三餐选择吗？")){
+today={};
+save();
+refresh();
+}
+}
+
+refresh();
+</script>
+
+</body>
+</html>
