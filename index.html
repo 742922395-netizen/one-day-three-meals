@@ -1,259 +1,1209 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#F8F3EC">
+
 <title>一日三餐</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#fff9f0;color:#292929;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial}
-.app{max-width:560px;margin:auto;padding:25px 18px 40px}
-h1{font-size:34px;margin:8px 0}
-.date{color:#999;font-size:14px;margin-bottom:25px}
-.meal,.progress,.form{background:white;border-radius:22px;padding:20px;margin:14px 0;box-shadow:0 6px 22px #0000000b}
-.meal{display:flex;align-items:center;gap:15px}
-.icon{font-size:38px;width:48px;text-align:center}
-.grow{flex:1}.label{color:#999;font-size:13px}.choice{font-size:19px;font-weight:bold;margin-top:5px}
-.arrow{font-size:30px;color:#bbb}
-.progress{margin-top:25px}.phead{display:flex;justify-content:space-between;font-weight:bold}
-.bar{height:12px;background:#eee;border-radius:20px;margin-top:15px;overflow:hidden}
-.fill{height:100%;background:#292929;width:0}
-button{border:0;border-radius:14px;padding:13px 17px;background:#292929;color:white;font-size:15px}
-.gray{background:#eee;color:#555}
-.actions{display:flex;gap:10px;margin-top:18px}
-.screen{display:none}.active{display:block}
-.back{background:none;color:#555;padding:4px 0}
-h2{font-size:30px;margin:18px 0 5px}.sub{color:#999;font-size:14px;margin-bottom:20px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.food{background:white;border:3px solid transparent;border-radius:18px;padding:10px;box-shadow:0 5px 18px #0000000a}
-.selected{border-color:#292929}
-.photo{height:150px;border-radius:13px;background:#eee9e0;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.photo img{width:100%;height:100%;object-fit:cover}
-.placeholder{font-size:45px}.check{position:absolute;background:#292929;color:white;border-radius:50%;padding:5px 9px;margin:7px}
-.name{font-weight:bold;margin-top:10px}.desc{font-size:12px;color:#999;margin-top:5px}
-input,textarea,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;margin:6px 0 10px;font-size:15px}
-textarea{height:65px}
-.row{display:flex;justify-content:space-between;border-top:1px solid #eee;padding:12px 0}
-.del{background:#eee;color:#777;padding:8px 11px;font-size:12px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+body{
+ margin:0;
+ background:#F8F3EC;
+ color:#403B36;
+ font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",
+ "Helvetica Neue",Arial,sans-serif;
+}
+
+button,input,textarea,select{font-family:inherit}
+button{cursor:pointer}
+
+.app{
+ max-width:520px;
+ min-height:100vh;
+ margin:auto;
+ padding-bottom:100px;
+}
+
+/* ---------- 首页 ---------- */
+
+.header{
+ padding:42px 22px 22px;
+}
+
+.hello{
+ font-size:12px;
+ letter-spacing:2px;
+ color:#A39A91;
+ margin-bottom:9px;
+}
+
+.title{
+ margin:0;
+ font-size:32px;
+ font-weight:800;
+ letter-spacing:-1px;
+}
+
+.subtitle{
+ margin-top:9px;
+ font-size:14px;
+ color:#968D85;
+}
+
+/* ---------- 进度 ---------- */
+
+.progress-card{
+ margin:0 18px 18px;
+ padding:19px;
+ background:#FFFDF9;
+ border-radius:26px;
+ box-shadow:0 8px 28px rgba(70,55,40,.06);
+}
+
+.progress-top{
+ display:flex;
+ justify-content:space-between;
+ margin-bottom:12px;
+}
+
+.progress-title{
+ font-size:14px;
+ font-weight:700;
+}
+
+.progress-number{
+ color:#9B9188;
+ font-size:13px;
+}
+
+.progress-bar{
+ height:8px;
+ background:#EEE7DF;
+ border-radius:20px;
+ overflow:hidden;
+}
+
+.progress-fill{
+ height:100%;
+ width:0;
+ background:linear-gradient(90deg,#E6A48F,#D5B38D);
+ border-radius:20px;
+ transition:.45s;
+}
+
+/* ---------- 三餐卡片 ---------- */
+
+.meal-card{
+ margin:14px 18px;
+ padding:20px;
+ background:#FFFDF9;
+ border-radius:28px;
+ box-shadow:0 8px 26px rgba(70,55,40,.055);
+ overflow:hidden;
+ position:relative;
+ transition:.18s;
+}
+
+.meal-card:active{
+ transform:scale(.985);
+}
+
+.meal-card:after{
+ content:"";
+ position:absolute;
+ width:110px;
+ height:110px;
+ right:-40px;
+ top:-45px;
+ border-radius:50%;
+ background:#F5E8DF;
+ opacity:.75;
+}
+
+.lunch:after{background:#E7EEE3}
+.dinner:after{background:#E9E5EE}
+
+.meal-head{
+ position:relative;
+ z-index:1;
+ display:flex;
+ align-items:center;
+ gap:13px;
+}
+
+.meal-icon{
+ width:49px;
+ height:49px;
+ border-radius:17px;
+ background:#F7E8DF;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:25px;
+}
+
+.lunch .meal-icon{background:#E7EEE3}
+.dinner .meal-icon{background:#E8E4ED}
+
+.meal-name{
+ font-size:20px;
+ font-weight:800;
+}
+
+.meal-desc{
+ margin-top:3px;
+ font-size:12px;
+ color:#A39A91;
+}
+
+.meal-result{
+ margin-top:17px;
+ padding:14px;
+ background:#FAF6F0;
+ border-radius:18px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+
+.result-name{
+ font-size:15px;
+ font-weight:700;
+}
+
+.not-selected{
+ color:#AAA19A;
+ font-weight:500;
+}
+
+.check{
+ color:#91A487;
+ font-size:12px;
+ font-weight:700;
+}
+
+.meal-button{
+ width:100%;
+ border:0;
+ margin-top:12px;
+ padding:13px;
+ border-radius:17px;
+ background:#F1E2D8;
+ color:#725A4D;
+ font-size:14px;
+ font-weight:700;
+}
+
+.lunch .meal-button{
+ background:#E4EBDF;
+ color:#607059;
+}
+
+.dinner .meal-button{
+ background:#E5E1EB;
+ color:#686073;
+}
+
+/* ---------- 随机按钮 ---------- */
+
+.random-wrap{
+ padding:8px 18px;
+}
+
+.random-button{
+ width:100%;
+ padding:16px;
+ border:0;
+ border-radius:21px;
+ background:#403B36;
+ color:white;
+ font-size:15px;
+ font-weight:700;
+ box-shadow:0 8px 20px rgba(60,50,40,.12);
+}
+
+.random-button:active{
+ transform:scale(.98);
+}
+
+/* ---------- 页面切换 ---------- */
+
+.page{display:none}
+.page.active{display:block}
+
+/* ---------- 选择页面 ---------- */
+
+.back{
+ margin:18px 20px;
+ border:0;
+ background:transparent;
+ color:#81776F;
+ font-size:14px;
+ padding:5px;
+}
+
+.choice-title{
+ padding:5px 22px 16px;
+}
+
+.choice-title h2{
+ margin:0;
+ font-size:28px;
+}
+
+.choice-title p{
+ margin-top:7px;
+ color:#999087;
+ font-size:13px;
+}
+
+.option{
+ margin:12px 18px;
+ padding:13px;
+ background:#FFFDF9;
+ border-radius:23px;
+ display:flex;
+ gap:13px;
+ align-items:center;
+ box-shadow:0 7px 22px rgba(70,55,40,.05);
+}
+
+.option-image{
+ width:78px;
+ height:78px;
+ flex-shrink:0;
+ object-fit:cover;
+ border-radius:19px;
+ background:#EEE7DF;
+}
+
+.option-info{
+ flex:1;
+ min-width:0;
+}
+
+.option-name{
+ font-size:16px;
+ font-weight:750;
+}
+
+.option-desc{
+ margin-top:5px;
+ color:#9B928A;
+ font-size:12px;
+ line-height:1.5;
+}
+
+.select-button{
+ margin-top:9px;
+ padding:8px 14px;
+ border:0;
+ border-radius:14px;
+ background:#F0E3D9;
+ color:#725C50;
+ font-size:12px;
+ font-weight:700;
+}
+
+.option.selected{
+ outline:2px solid #D8BBA8;
+}
+
+/* ---------- 我的菜单 ---------- */
+
+.manage-header{
+ padding:42px 22px 20px;
+}
+
+.manage-header h2{
+ margin:0;
+ font-size:28px;
+}
+
+.manage-header p{
+ color:#999087;
+ font-size:13px;
+}
+
+.form{
+ margin:0 18px;
+ padding:20px;
+ background:#FFFDF9;
+ border-radius:25px;
+ box-shadow:0 7px 22px rgba(70,55,40,.05);
+}
+
+label{
+ display:block;
+ margin:12px 0 7px;
+ color:#8F867E;
+ font-size:12px;
+}
+
+input,textarea,select{
+ width:100%;
+ border:1px solid #EEE5DC;
+ outline:none;
+ padding:12px;
+ border-radius:15px;
+ background:#FAF7F2;
+ color:#403B36;
+ font-size:14px;
+}
+
+textarea{
+ resize:none;
+}
+
+input:focus,textarea:focus,select:focus{
+ border-color:#D9C2B2;
+}
+
+.add-button{
+ width:100%;
+ margin-top:15px;
+ padding:14px;
+ border:0;
+ border-radius:17px;
+ background:#403B36;
+ color:white;
+ font-size:14px;
+ font-weight:700;
+}
+
+.menu-list{
+ margin:18px;
+}
+
+.menu-item{
+ margin-bottom:10px;
+ padding:15px;
+ background:#FFFDF9;
+ border-radius:20px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:12px;
+}
+
+.menu-food{
+ font-size:14px;
+ font-weight:700;
+}
+
+.menu-type{
+ margin-top:4px;
+ color:#A0978F;
+ font-size:11px;
+}
+
+.delete{
+ border:0;
+ padding:8px 10px;
+ border-radius:12px;
+ background:#F5E4DF;
+ color:#A16F64;
+}
+
+/* ---------- 底部导航 ---------- */
+
+.bottom-nav{
+ position:fixed;
+ left:50%;
+ bottom:13px;
+ transform:translateX(-50%);
+ width:calc(100% - 34px);
+ max-width:485px;
+ padding:9px;
+ background:rgba(255,253,249,.94);
+ backdrop-filter:blur(15px);
+ border-radius:23px;
+ display:flex;
+ justify-content:space-around;
+ box-shadow:0 8px 30px rgba(60,50,40,.13);
+ z-index:20;
+}
+
+.nav-button{
+ flex:1;
+ border:0;
+ background:transparent;
+ padding:7px;
+ color:#A29A92;
+ font-size:11px;
+}
+
+.nav-button.active{
+ color:#403B36;
+ font-weight:700;
+}
+
+.nav-icon{
+ display:block;
+ margin-bottom:2px;
+ font-size:20px;
+}
+
+/* ---------- Toast ---------- */
+
+.toast{
+ position:fixed;
+ left:50%;
+ bottom:88px;
+ transform:translateX(-50%) translateY(20px);
+ padding:11px 17px;
+ border-radius:15px;
+ background:#403B36;
+ color:white;
+ font-size:13px;
+ opacity:0;
+ pointer-events:none;
+ transition:.3s;
+ z-index:50;
+ white-space:nowrap;
+}
+
+.toast.show{
+ opacity:1;
+ transform:translateX(-50%) translateY(0);
+}
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
-<div id="home" class="screen active">
-<div class="date" id="date"></div>
-<h1>今天吃什么？</h1>
+<!-- ================= 首页 ================= -->
 
-<div class="meal" onclick="menu('breakfast')">
-<div class="icon">☀️</div><div class="grow">
-<div class="label">早餐</div><div class="choice" id="b">点击选择早餐</div>
-</div><div class="arrow">›</div>
-</div>
+<div id="homePage" class="page active">
 
-<div class="meal" onclick="menu('lunch')">
-<div class="icon">🌤️</div><div class="grow">
-<div class="label">午餐</div><div class="choice" id="l">点击选择午餐</div>
-</div><div class="arrow">›</div>
-</div>
+ <div class="header">
+  <div class="hello">GOOD FOOD · GOOD DAY</div>
+  <h1 class="title">今天吃什么？</h1>
+  <div class="subtitle">好好吃饭，好好生活 ♡</div>
+ </div>
 
-<div class="meal" onclick="menu('dinner')">
-<div class="icon">🌙</div><div class="grow">
-<div class="label">晚餐</div><div class="choice" id="d">点击选择晚餐</div>
-</div><div class="arrow">›</div>
-</div>
+ <div class="progress-card">
+  <div class="progress-top">
+   <div class="progress-title">今日吃饭进度</div>
+   <div class="progress-number" id="progressText">0 / 3</div>
+  </div>
 
-<div class="progress">
-<div class="phead"><span>今日完成</span><span id="count">0 / 3</span></div>
-<div class="bar"><div class="fill" id="fill"></div></div>
-<p id="tip" style="color:#999;font-size:13px">选好三餐，就完成今天的菜单啦</p>
-</div>
+  <div class="progress-bar">
+   <div class="progress-fill" id="progressFill"></div>
+  </div>
+ </div>
 
-<div class="actions">
-<button onclick="manage()">管理我的菜单</button>
-<button class="gray" onclick="resetDay()">重新选择</button>
-</div>
-</div>
+ <div id="mealCards"></div>
 
-<div id="menu" class="screen">
-<button class="back" onclick="home()">‹ 返回</button>
-<h2 id="title"></h2>
-<div class="sub">点击你今天想吃的这一项</div>
-<div class="grid" id="grid"></div>
-</div>
-
-<div id="manage" class="screen">
-<button class="back" onclick="home()">‹ 返回</button>
-<h2>管理我的菜单</h2>
-<div class="sub">可以直接在手机里添加自己的菜品。</div>
-
-<div class="form">
-<select id="type">
-<option value="breakfast">早餐</option>
-<option value="lunch">午餐</option>
-<option value="dinner">晚餐</option>
-</select>
-<input id="name" placeholder="菜品名称">
-<input id="image" placeholder="图片网址（可以先不填）">
-<textarea id="desc" placeholder="菜品介绍"></textarea>
-<button onclick="add()">添加菜品</button>
-</div>
-
-<div id="list"></div>
-</div>
+ <div class="random-wrap">
+  <button class="random-button" onclick="randomAll()">
+   🎲 今天不想选，帮我决定
+  </button>
+ </div>
 
 </div>
+
+
+<!-- ================= 选择页面 ================= -->
+
+<div id="choicePage" class="page">
+
+ <button class="back" onclick="goHome()">‹ 返回</button>
+
+ <div class="choice-title">
+  <h2 id="choiceTitle">早餐</h2>
+  <p>选一个你今天想吃的吧 ♡</p>
+ </div>
+
+ <div id="options"></div>
+
+</div>
+
+
+<!-- ================= 我的菜单 ================= -->
+
+<div id="managePage" class="page">
+
+ <div class="manage-header">
+  <h2>我的菜单</h2>
+  <p>把喜欢吃的东西都放进来吧 ♡</p>
+ </div>
+
+ <div class="form">
+
+  <label>餐次</label>
+
+  <select id="mealType">
+   <option value="breakfast">☀️ 早餐</option>
+   <option value="lunch">🍱 午餐</option>
+   <option value="dinner">🌙 晚餐</option>
+  </select>
+
+
+  <label>菜品名称</label>
+
+  <input
+   id="foodName"
+   placeholder="例如：草莓酸奶碗"
+  >
+
+
+  <label>图片网址</label>
+
+  <input
+   id="foodImage"
+   placeholder="可以暂时不填"
+  >
+
+
+  <label>一句话描述</label>
+
+  <textarea
+   id="foodDesc"
+   rows="2"
+   placeholder="例如：酸酸甜甜，适合早晨～"
+  ></textarea>
+
+
+  <button class="add-button" onclick="addFood()">
+   ＋ 添加到我的菜单
+  </button>
+
+ </div>
+
+ <div class="menu-list" id="menuList"></div>
+
+</div>
+
+</div>
+
+
+<!-- ================= 底部导航 ================= -->
+
+<div class="bottom-nav">
+
+ <button
+  class="nav-button active"
+  id="homeNav"
+  onclick="goHome()"
+ >
+  <span class="nav-icon">🍽️</span>
+  今日三餐
+ </button>
+
+ <button
+  class="nav-button"
+  id="manageNav"
+  onclick="goManage()"
+ >
+  <span class="nav-icon">♡</span>
+  我的菜单
+ </button>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
 
 <script>
-const titles={breakfast:"早餐",lunch:"午餐",dinner:"晚餐"};
 
-let data=JSON.parse(localStorage.getItem("menu")||"null")||{
-breakfast:[
-{id:1,name:"早餐选项 1",image:"",desc:"换成你喜欢的早餐"},
-{id:2,name:"早餐选项 2",image:"",desc:"换成你喜欢的早餐"},
-{id:3,name:"早餐选项 3",image:"",desc:"换成你喜欢的早餐"}],
-lunch:[
-{id:4,name:"午餐选项 1",image:"",desc:"换成你喜欢的午餐"},
-{id:5,name:"午餐选项 2",image:"",desc:"换成你喜欢的午餐"},
-{id:6,name:"午餐选项 3",image:"",desc:"换成你喜欢的午餐"}],
-dinner:[
-{id:7,name:"晚餐选项 1",image:"",desc:"换成你喜欢的晚餐"},
-{id:8,name:"晚餐选项 2",image:"",desc:"换成你喜欢的晚餐"},
-{id:9,name:"晚餐选项 3",image:"",desc:"换成你喜欢的晚餐"}]};
+/* ================= 默认菜单 ================= */
 
-let today=JSON.parse(localStorage.getItem("today")||"{}");
-let current="";
+const defaultMenu = {
 
-document.getElementById("date").innerText=
-new Date().toLocaleDateString("zh-CN",{year:"numeric",month:"long",day:"numeric"});
+ breakfast:[
+  {
+   name:"早餐选项 1",
+   image:"",
+   desc:"开启元气的一天"
+  },
+  {
+   name:"早餐选项 2",
+   image:"",
+   desc:"简单又满足"
+  },
+  {
+   name:"早餐选项 3",
+   image:"",
+   desc:"今天也要好好吃饭"
+  }
+ ],
+
+ lunch:[
+  {
+   name:"午餐选项 1",
+   image:"",
+   desc:"好好吃午饭"
+  },
+  {
+   name:"午餐选项 2",
+   image:"",
+   desc:"今天想吃这个"
+  },
+  {
+   name:"午餐选项 3",
+   image:"",
+   desc:"幸福感满满"
+  }
+ ],
+
+ dinner:[
+  {
+   name:"晚餐选项 1",
+   image:"",
+   desc:"给今天一个温柔的收尾"
+  },
+  {
+   name:"晚餐选项 2",
+   image:"",
+   desc:"晚上也要好好吃饭"
+  },
+  {
+   name:"晚餐选项 3",
+   image:"",
+   desc:"舒服地结束一天"
+  }
+ ]
+
+};
+
+
+/* ================= 数据 ================= */
+
+let menu =
+ JSON.parse(localStorage.getItem("mealMenu"))
+ || JSON.parse(JSON.stringify(defaultMenu));
+
+let selected =
+ JSON.parse(localStorage.getItem("todayMeals"))
+ || {};
+
+let currentMeal="";
+
+
+const mealInfo={
+
+ breakfast:{
+  name:"早餐",
+  icon:"☀️",
+  desc:"开启元气的一天"
+ },
+
+ lunch:{
+  name:"午餐",
+  icon:"🍱",
+  desc:"今天中午吃什么？"
+ },
+
+ dinner:{
+  name:"晚餐",
+  icon:"🌙",
+  desc:"给今天一个温柔的收尾"
+ }
+
+};
+
+
+/* ================= 保存 ================= */
 
 function save(){
-localStorage.setItem("menu",JSON.stringify(data));
-localStorage.setItem("today",JSON.stringify(today));
+
+ localStorage.setItem(
+  "mealMenu",
+  JSON.stringify(menu)
+ );
+
+ localStorage.setItem(
+  "todayMeals",
+  JSON.stringify(selected)
+ );
+
 }
 
-function refresh(){
-let n=0;
-["breakfast","lunch","dinner"].forEach((x,i)=>{
-let id=["b","l","d"][i];
-document.getElementById(id).innerText=today[x]?.name||"点击选择"+titles[x];
-if(today[x])n++;
-});
-document.getElementById("count").innerText=n+" / 3";
-document.getElementById("fill").style.width=(n/3*100)+"%";
-document.getElementById("tip").innerText=n==3?"🎉 今天三餐都选好了！":"选好三餐，就完成今天的菜单啦";
+
+/* ================= 首页 ================= */
+
+function renderHome(){
+
+ const box=document.getElementById("mealCards");
+
+ box.innerHTML="";
+
+
+ ["breakfast","lunch","dinner"].forEach(type=>{
+
+  const info=mealInfo[type];
+
+  const value=selected[type];
+
+  const card=document.createElement("div");
+
+  card.className="meal-card "+type;
+
+
+  card.innerHTML=`
+
+   <div class="meal-head">
+
+    <div class="meal-icon">
+     ${info.icon}
+    </div>
+
+    <div>
+
+     <div class="meal-name">
+      ${info.name}
+     </div>
+
+     <div class="meal-desc">
+      ${info.desc}
+     </div>
+
+    </div>
+
+   </div>
+
+
+   <div class="meal-result">
+
+    <div class="result-name ${value?"":"not-selected"}">
+
+     ${value ? escapeHTML(value.name) : "还没有选择"}
+
+    </div>
+
+    ${
+     value
+     ? '<div class="check">✓ 已选择</div>'
+     : ''
+    }
+
+   </div>
+
+
+   <button
+    class="meal-button"
+    onclick="openChoice('${type}')"
+   >
+
+    ${value ? "重新选择" : "去选择 →"}
+
+   </button>
+
+  `;
+
+  box.appendChild(card);
+
+ });
+
+
+ updateProgress();
+
 }
 
-function show(x){
-document.querySelectorAll(".screen").forEach(e=>e.classList.remove("active"));
-document.getElementById(x).classList.add("active");
-window.scrollTo(0,0);
+
+/* ================= 进度 ================= */
+
+function updateProgress(){
+
+ const count=
+  ["breakfast","lunch","dinner"]
+  .filter(type=>selected[type])
+  .length;
+
+ document.getElementById("progressText")
+  .innerText=count+" / 3";
+
+ document.getElementById("progressFill")
+  .style.width=(count/3*100)+"%";
+
 }
 
-function home(){show("home");refresh()}
 
-function menu(type){
-current=type;
-show("menu");
-document.getElementById("title").innerText=titles[type];
-let g=document.getElementById("grid");
-g.innerHTML="";
+/* ================= 打开选择 ================= */
 
-data[type].forEach(x=>{
-let d=document.createElement("div");
-d.className="food "+(today[type]?.id==x.id?"selected":"");
+function openChoice(type){
 
-d.innerHTML=
-'<div class="photo">'+
-(x.image?'<img src="'+x.image+'">':'<div class="placeholder">🍽️</div>')+
-'</div>'+
-'<div class="name">'+x.name+'</div>'+
-'<div class="desc">'+x.desc+'</div>';
+ currentMeal=type;
 
-d.onclick=()=>{
-today[type]=x;
-save();
-home();
-};
+ document.getElementById("homePage")
+  .classList.remove("active");
 
-g.appendChild(d);
-});
+ document.getElementById("managePage")
+  .classList.remove("active");
+
+ document.getElementById("choicePage")
+  .classList.add("active");
+
+ document.getElementById("choiceTitle")
+  .innerText=
+  mealInfo[type].icon+" "+mealInfo[type].name;
+
+ renderOptions();
+
 }
 
-function manage(){
-show("manage");
-renderList();
+
+/* ================= 选择列表 ================= */
+
+function renderOptions(){
+
+ const box=document.getElementById("options");
+
+ box.innerHTML="";
+
+
+ menu[currentMeal].forEach((food,index)=>{
+
+  const option=document.createElement("div");
+
+  option.className="option";
+
+
+  const image=
+   food.image ||
+   "data:image/svg+xml;charset=UTF-8,"+
+   encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg"
+     width="150" height="150">
+     <rect width="100%" height="100%"
+      fill="#eee7df"/>
+     <text x="50%" y="50%"
+      text-anchor="middle"
+      dominant-baseline="middle"
+      font-size="38">
+      🍽️
+     </text>
+    </svg>
+   `);
+
+
+  const isSelected=
+   selected[currentMeal] &&
+   selected[currentMeal].name===food.name;
+
+
+  option.className=
+   "option "+(isSelected?"selected":"");
+
+
+  option.innerHTML=`
+
+   <img
+    class="option-image"
+    src="${escapeAttr(image)}"
+    onerror="this.style.display='none'"
+   >
+
+   <div class="option-info">
+
+    <div class="option-name">
+     ${escapeHTML(food.name)}
+    </div>
+
+    <div class="option-desc">
+     ${escapeHTML(food.desc || "")}
+    </div>
+
+    <button
+     class="select-button"
+     onclick="selectFood(${index})"
+    >
+     ${isSelected ? "✓ 已选择" : "选择这个"}
+    </button>
+
+   </div>
+
+  `;
+
+  box.appendChild(option);
+
+ });
+
 }
 
-function add(){
-let type=document.getElementById("type").value;
-let name=document.getElementById("name").value.trim();
 
-if(!name){
-alert("请填写菜品名称");
-return;
+/* ================= 选择食物 ================= */
+
+function selectFood(index){
+
+ selected[currentMeal]=
+  menu[currentMeal][index];
+
+ save();
+
+ showToast("已经帮你选好了 ♡");
+
+ setTimeout(goHome,450);
+
 }
 
-data[type].push({
-id:Date.now(),
-name:name,
-image:document.getElementById("image").value.trim(),
-desc:document.getElementById("desc").value.trim()
-});
 
-save();
+/* ================= 随机三餐 ================= */
 
-document.getElementById("name").value="";
-document.getElementById("image").value="";
-document.getElementById("desc").value="";
+function randomAll(){
 
-renderList();
-alert("添加成功！");
+ ["breakfast","lunch","dinner"].forEach(type=>{
+
+  if(menu[type].length){
+
+   const index=
+    Math.floor(
+     Math.random()*menu[type].length
+    );
+
+   selected[type]=menu[type][index];
+
+  }
+
+ });
+
+ save();
+
+ renderHome();
+
+ showToast("今天的三餐决定好了 ♡");
+
 }
 
-function renderList(){
-let box=document.getElementById("list");
-box.innerHTML="";
 
-["breakfast","lunch","dinner"].forEach(type=>{
-let f=document.createElement("div");
-f.className="form";
-f.innerHTML="<b>"+titles[type]+"</b>";
+/* ================= 回首页 ================= */
 
-data[type].forEach(x=>{
-let r=document.createElement("div");
-r.className="row";
-r.innerHTML="<span>"+x.name+"</span>";
+function goHome(){
 
-let btn=document.createElement("button");
-btn.className="del";
-btn.innerText="删除";
+ document.getElementById("choicePage")
+  .classList.remove("active");
 
-btn.onclick=()=>{
-data[type]=data[type].filter(a=>a.id!=x.id);
-if(today[type]?.id==x.id)delete today[type];
-save();
-renderList();
-};
+ document.getElementById("managePage")
+  .classList.remove("active");
 
-r.appendChild(btn);
-f.appendChild(r);
-});
+ document.getElementById("homePage")
+  .classList.add("active");
 
-box.appendChild(f);
-});
+ document.getElementById("homeNav")
+  .classList.add("active");
+
+ document.getElementById("manageNav")
+  .classList.remove("active");
+
+ renderHome();
+
 }
 
-function resetDay(){
-if(confirm("确定清空今天的三餐选择吗？")){
-today={};
-save();
-refresh();
-}
+
+/* ================= 我的菜单 ================= */
+
+function goManage(){
+
+ document.getElementById("homePage")
+  .classList.remove("active");
+
+ document.getElementById("choicePage")
+  .classList.remove("active");
+
+ document.getElementById("managePage")
+  .classList.add("active");
+
+ document.getElementById("homeNav")
+  .classList.remove("active");
+
+ document.getElementById("manageNav")
+  .classList.add("active");
+
+ renderMenu();
+
 }
 
-refresh();
+
+/* ================= 添加菜品 ================= */
+
+function addFood(){
+
+ const type=
+  document.getElementById("mealType").value;
+
+ const name=
+  document.getElementById("foodName")
+  .value.trim();
+
+ const image=
+  document.getElementById("foodImage")
+  .value.trim();
+
+ const desc=
+  document.getElementById("foodDesc")
+  .value.trim();
+
+
+ if(!name){
+
+  showToast("先写一个菜品名称吧～");
+
+  return;
+
+ }
+
+
+ menu[type].push({
+  name:name,
+  image:image,
+  desc:desc
+ });
+
+
+ save();
+
+
+ document.getElementById("foodName").value="";
+ document.getElementById("foodImage").value="";
+ document.getElementById("foodDesc").value="";
+
+
+ renderMenu();
+
+ showToast("已经加入你的菜单 ♡");
+
+}
+
+
+/* ================= 菜单列表 ================= */
+
+function renderMenu(){
+
+ const box=document.getElementById("menuList");
+
+ box.innerHTML="";
+
+
+ ["breakfast","lunch","dinner"].forEach(type=>{
+
+  menu[type].forEach((food,index)=>{
+
+   const item=document.createElement("div");
+
+   item.className="menu-item";
+
+
+   item.innerHTML=`
+
+    <div>
+
+     <div class="menu-food">
+      ${mealInfo[type].icon}
+      ${escapeHTML(food.name)}
+     </div>
+
+     <div class="menu-type">
+      ${mealInfo[type].name}
+     </div>
+
+    </div>
+
+    <button
+     class="delete"
+     onclick="deleteFood('${type}',${index})"
+    >
+     删除
+    </button>
+
+   `;
+
+   box.appendChild(item);
+
+  });
+
+ });
+
+}
+
+
+/* ================= 删除菜品 ================= */
+
+function deleteFood(type,index){
+
+ const food=menu[type][index];
+
+
+ if(
+  selected[type] &&
+  selected[type].name===food.name
+ ){
+
+  delete selected[type];
+
+ }
+
+
+ menu[type].splice(index,1);
+
+ save();
+
+ renderMenu();
+
+ renderHome();
+
+ showToast("已经删除");
+
+}
+
+
+/* ================= 小提示 ================= */
+
+function showToast(text){
+
+ const toast=document.getElementById("toast");
+
+ toast.innerText=text;
+
+ toast.classList.add("show");
+
+ clearTimeout(window.toastTimer);
+
+ window.toastTimer=setTimeout(()=>{
+
+  toast.classList.remove("show");
+
+ },1800);
+
+}
+
+
+/* ================= 防止特殊字符影响页面 ================= */
+
+function escapeHTML(str){
+
+ return String(str)
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttr(str){
+
+ return String(str)
+  .replace(/"/g,"%22")
+  .replace(/'/g,"%27");
+
+}
+
+
+/* ================= 启动 ================= */
+
+renderHome();
+
 </script>
 
 </body>
